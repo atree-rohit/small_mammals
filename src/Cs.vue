@@ -31,10 +31,10 @@
 					<tr class="bg-dark text-light">
 						<th v-for="(v,k) in sortedData[0]" @click="sort(k)">
 							{{headerName(k)}}
-							<tempalte v-if="currentSort == k">
+							<span v-if="currentSort == k">
 								<span class="h4" v-if="currentSortDir == 'asc'">↓</span>
 								<span class="h4" v-else>↑</span>
-							</tempalte>
+							</span>
 						</th>
 					</tr>
 				</thead>
@@ -102,11 +102,12 @@
 				ibp_raw.forEach(row => {
 					let data = {};
 					Object.keys(row).forEach(col=> {
-						if(this.skip_fields.indexOf(col) == -1){
+						if(this.skip_fields.indexOf(col) == -1 && row.createdBy != "admin"){
 							data[col] = row[col]
 						}
 					})
-					this.allData["ibp"].push(data);
+					if(data.id != undefined)
+						this.allData["ibp"].push(data);
 				})
 			},
 			 sort:function(s) {
